@@ -2,10 +2,10 @@
 
 /* Container with better defaults but still problematic */
 .container {
-    width: 1200px; /* Fixed width */
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
-    /* No max-width for proper responsiveness */
 }
 
 /* Section layouts - better spacing */
@@ -17,8 +17,7 @@ section {
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* No gap property */
-    /* No media queries */
+    gap: 20px;
 }
 
 .grid-2 {
@@ -42,7 +41,12 @@ section {
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* No responsive adjustments */
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem;
+    }
 }
 
 /* Events display - flexbox layout */
@@ -83,8 +87,19 @@ section {
     color: white;
     text-align: center;
     cursor: pointer;
-    /* Not accessible - should be a button */
-    /* No hover state */
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.event-card .register:hover {
+    background-color: #2980b9;
+}
+
+.event-card .register:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 /* About page layout */
@@ -105,7 +120,12 @@ section {
     border-radius: 8px;
     margin: 2rem auto;
     max-width: 800px;
-    /* No responsive adjustments */
+}
+
+@media (max-width: 768px) {
+    .mission {
+        padding: 2rem 1rem;
+    }
 }
 
 /* Timeline layout - more visual but with positioning issues */
@@ -129,8 +149,17 @@ section {
 .timeline > div {
     position: relative;
     margin-bottom: 2rem;
-    /* No proper structure for timeline items */
-    /* No responsive behavior */
+}
+
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 10px;
+        transform: none;
+    }
+
+    .timeline > div {
+        padding-left: 30px;
+    }
 }
 
 /* Form layout with issues */
@@ -150,43 +179,68 @@ section {
 
 /* Mobile menu issues */
 .mobile-toggle {
-    display: none; /* Hidden on desktop */
-    /* No media query to show on mobile */
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-toggle {
+        display: block;
+    }
 }
 
 /* Problematic footer layout */
 footer {
     display: flex;
     flex-wrap: wrap;
-    /* No proper column structure */
-    /* No proper spacing */
+    justify-content: space-between;
+    padding: 2rem 0;
+}
+
+footer > div {
+    flex: 1 1 200px;
+    margin: 0.5rem;
 }
 
 /* Responsive issues - incomplete media queries */
 @media (max-width: 1200px) {
     .container {
-        width: 100%; /* Good but missing max-width */
+        width: 100%;
+        max-width: 100%;
     }
 }
 
 @media (max-width: 768px) {
-    /* Nav is missing a mobile design */
-    
-    .grid,
-    .grid-2,
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
     .grid-4 {
-        /* Missing responsive grid adjustments */
+        grid-template-columns: 1fr;
     }
-    
+
     .event-card {
-        /* Missing responsive adjustments */
-    }
-    
-    .timeline::before {
-        /* Should adjust position for mobile */
+        flex: 0 0 100%;
     }
 }
 
 @media (max-width: 480px) {
-    /* Missing additional mobile adjustments */
+    .hero-section {
+        padding: 1rem;
+    }
+
+    .mission {
+        padding: 1rem;
+    }
+
+    .timeline::before {
+        left: 5px;
+    }
+
+    .timeline > div {
+        padding-left: 20px;
+    }
 }

@@ -13,6 +13,9 @@ class BankAccount:
         self._overdraft_limit = 500 
 
     def deposit(self, amount):
+        if amount <= 0:
+            print("Invalid deposit amount")
+            return False
         self._balance += amount
         self._log_transaction("DEPOSIT", amount)
         return True
@@ -39,6 +42,9 @@ class BankAccount:
             'balance': self._balance
         }
         self.transaction_history.append(transaction)
+
+    def get_balance(self):
+        return self._balance
 
 class Bank:
     def __init__(self, name):
@@ -87,7 +93,8 @@ class BankingSystem:
             from_account = random.choice(accounts)
             to_account = random.choice(accounts)
             amount = random.uniform(10, 500)
-            self.bank.transfer_funds(from_account, to_account, amount)
+            if from_account != to_account:
+                self.bank.transfer_funds(from_account, to_account, amount)
 
         threads = []
         for _ in range(num_transactions):
@@ -97,3 +104,7 @@ class BankingSystem:
 
         for thread in threads:
             thread.join()
+
+if __name__ == "__main__":
+    banking_system = BankingSystem()
+    banking_system.simulate_transactions()

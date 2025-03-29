@@ -6,22 +6,26 @@
     --text-color: #333333;
     --light-gray: #f5f5f5;
     --dark-gray: #444444;
+    --header-bg-color: #2a75bb;
 }
 
 /* Base styles with improved typography but still with issues */
 body {
-    font-family: 'Poppins', Arial;
-    /* Missing fallback sans-serif */
+    font-family: 'Poppins', Arial, sans-serif; /* Added fallback sans-serif */
     color: var(--text-color);
     margin: 0;
     line-height: 1.6;
-    /* No box-sizing reset */
+    box-sizing: border-box; /* Added box-sizing reset */
     background-color: #fff;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit; /* Ensure all elements inherit box-sizing */
 }
 
 /* Header styling - more attractive but with inconsistent selectors */
 header {
-    background-color: #2a75bb; /* Not using variable */
+    background-color: var(--header-bg-color); /* Using variable */
     padding: 1rem 2rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: sticky;
@@ -39,13 +43,17 @@ header {
 
 .logo img {
     height: 50px;
-    /* Missing width attribute */
-    /* Missing proper sizing for mobile */
+    width: auto; /* Added width attribute */
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 40px; /* Adjusted size for mobile */
+    }
 }
 
 /* Navigation styling - better looking but with issues */
-#nav {
-    /* Inconsistent ID vs class usage */
+.nav {
     margin-left: auto;
 }
 
@@ -66,18 +74,18 @@ nav a {
     font-weight: 500;
     letter-spacing: 0.5px;
     position: relative;
-    /* Missing transition for hover effect */
+    transition: color 0.3s; /* Added transition for hover effect */
 }
 
 /* Incomplete hover effect */
 nav a:hover {
     color: rgba(255, 255, 255, 0.9);
-    /* Missing underline or other indicator */
+    text-decoration: underline; /* Added underline indicator */
 }
 
 /* Prettier buttons but inconsistent styling */
 button {
-    background-color: #3498db; /* Not using CSS variable */
+    background-color: var(--primary-color); /* Using CSS variable */
     color: white;
     padding: 12px 24px;
     border: none;
@@ -92,7 +100,6 @@ button:hover {
 }
 
 .btn {
-    /* Inconsistent with button styling */
     background-color: var(--secondary-color);
     color: white;
     padding: 10px 20px;
@@ -100,11 +107,16 @@ button:hover {
     display: inline-block;
     text-decoration: none;
     font-weight: 500;
+    transition: background-color 0.2s; /* Added transition for consistency */
+}
+
+.btn:hover {
+    background-color: #27ae60;
 }
 
 /* Hero section styling - attractive but with layout issues */
 .hero-section {
-    height: 500px; /* Fixed height instead of min-height */
+    min-height: 500px; /* Changed to min-height */
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url("../images/hero.jpg");
     background-size: cover;
     background-position: center;
@@ -117,7 +129,7 @@ button:hover {
     padding: 2rem;
 }
 
-.hero-section h3 { /* Should be h1 */
+.hero-section h1 { /* Changed to h1 */
     font-size: 3rem;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -149,8 +161,8 @@ section {
 .event-cards {
     display: flex;
     flex-wrap: wrap;
-    /* No proper gap */
-    /* No responsive adjustments */
+    gap: 20px; /* Added gap */
+    justify-content: center; /* Centered cards */
 }
 
 .card {
@@ -159,8 +171,8 @@ section {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     background-color: white;
     transition: transform 0.3s, box-shadow 0.3s;
-    width: 330px; /* Fixed width instead of responsive */
-    margin: 0 15px 30px; /* Inconsistent spacing units */
+    flex: 1 1 300px; /* Changed to responsive width */
+    margin: 15px; /* Consistent spacing units */
 }
 
 .card:hover {
@@ -177,7 +189,7 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* No transition effect */
+    transition: transform 0.3s; /* Added transition effect */
 }
 
 .event-info {
@@ -214,13 +226,18 @@ section {
     width: 80%;
     margin: 0 auto;
     border-collapse: collapse;
-    /* Missing proper table styling */
-    /* No responsive behavior */
+    border: 1px solid #ddd; /* Added border */
 }
 
-.team-preview td {
+.team-preview th, .team-preview td {
     padding: 1rem;
     border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 768px) {
+    .team-preview table {
+        width: 100%; /* Adjusted for mobile */
+    }
 }
 
 /* Footer styling - better looking but missing elements */
@@ -228,7 +245,14 @@ footer {
     background-color: #2c3e50;
     color: white;
     padding: 3rem 2rem;
-    /* No proper layout for columns */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer > div {
+    flex: 1 1 200px;
+    margin: 0.5rem;
 }
 
 /* Timeline styling */
@@ -241,15 +265,22 @@ footer {
     content: '';
     position: absolute;
     top: 0;
-    left: 50%; /* This won't work well for mobile */
+    left: 50%;
     width: 2px;
     height: 100%;
     background-color: var(--primary-color);
+    transform: translateX(-50%);
 }
 
-/* Missing proper media queries */
 @media (max-width: 768px) {
-    /* Empty media query */
+    .timeline::before {
+        left: 10px;
+        transform: none;
+    }
+
+    .timeline > div {
+        padding-left: 30px;
+    }
 }
 
 /* Form styling but with accessibility issues */
@@ -260,7 +291,12 @@ form textarea {
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    /* No focus states */
+}
+
+form input:focus, 
+form textarea:focus {
+    outline: 2px solid var(--primary-color); /* Added focus states */
+    outline-offset: 2px;
 }
 
 form button {
@@ -271,5 +307,33 @@ form button {
 .dark-mode {
     background-color: #222;
     color: #eee;
-    /* Missing comprehensive styling for all components */
+}
+
+.dark-mode header {
+    background-color: #1a1a1a;
+}
+
+.dark-mode footer {
+    background-color: #1a1a1a;
+}
+
+.dark-mode .card {
+    background-color: #333;
+    color: #eee;
+}
+
+.dark-mode .event-info .date {
+    color: var(--secondary-color);
+}
+
+/* Missing proper media queries */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 1rem;
+    }
+
+    .event-cards {
+        flex-direction: column;
+        align-items: center;
+    }
 }

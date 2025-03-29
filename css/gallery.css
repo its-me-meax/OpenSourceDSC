@@ -22,7 +22,6 @@
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
-    /* No proper focus states */
 }
 
 .gallery-filters span {
@@ -32,8 +31,11 @@
     background-color: #eee;
     cursor: pointer;
     transition: all 0.3s;
-    /* Not keyboard accessible */
-    /* Should be buttons */
+}
+
+.gallery-filters span:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
 }
 
 .gallery-filters span.active {
@@ -55,7 +57,12 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 2rem;
-    /* No responsive adjustments */
+}
+
+@media (max-width: 768px) {
+    .gallery-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 .gallery-item {
@@ -66,7 +73,11 @@
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s;
-    /* No keyboard interaction */
+}
+
+.gallery-item:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
 }
 
 .gallery-item:hover {
@@ -78,10 +89,18 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* No alt text in JS generation */
 }
 
-/* Missing caption styling */
+/* Caption styling */
+.gallery-item .caption {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+}
 
 .empty-gallery {
     grid-column: 1 / -1;
@@ -101,8 +120,14 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.9);
-    /* Missing animation */
-    /* Missing proper centering */
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .lightbox-content {
@@ -110,7 +135,13 @@
     margin: 5% auto;
     max-width: 80%;
     max-height: 80%;
-    /* Not responsive for mobile */
+}
+
+@media (max-width: 768px) {
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
 }
 
 .close-lightbox {
@@ -120,15 +151,18 @@
     color: white;
     font-size: 35px;
     cursor: pointer;
-    /* Not accessible - needs more contrast */
-    /* No focus state */
+}
+
+.close-lightbox:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 #lightbox-caption {
     color: white;
     text-align: center;
     padding: 1rem;
-    /* Poor contrast with background */
+    background: rgba(0, 0, 0, 0.7);
 }
 
 /* Upload section - styling issues */
@@ -162,12 +196,16 @@
     padding: 0.8rem 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    /* No focus states */
+}
+
+.upload-section input:focus,
+.upload-section select:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
 }
 
 .upload-section input[type="file"] {
     padding: 0.5rem 0;
-    /* No proper styling */
 }
 
 .upload-section button {
@@ -178,26 +216,102 @@
     font-size: 1rem;
     border-radius: 4px;
     cursor: pointer;
-    /* No hover states */
 }
 
-/* Missing pagination controls styling */
+.upload-section button:hover {
+    background-color: #2980b9;
+}
 
-/* Missing category indicators on images */
+/* Pagination controls styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
 
-/* Missing loading animations */
+.pagination button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
 
-/* Missing mobile optimizations */
+.pagination button:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination button:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* Category indicators on images */
+.category-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+/* Loading animations */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loading .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Mobile optimizations */
 @media (max-width: 768px) {
-    /* Empty media query */
+    .gallery-header {
+        padding: 2rem 1rem;
+    }
+
+    .upload-section {
+        padding: 2rem 1rem;
+    }
 }
 
 /* Dark mode adjustments - incomplete */
 .dark-mode .gallery-header {
     background-color: #333;
-    /* Text color not adjusted */
+    color: #fff;
 }
 
 .dark-mode .upload-section {
-    /* Missing dark mode styling */
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode .upload-section input,
+.dark-mode .upload-section select {
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.dark-mode .upload-section button {
+    background-color: #555;
+}
+
+.dark-mode .upload-section button:hover {
+    background-color: #666;
 }
